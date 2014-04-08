@@ -7,7 +7,7 @@ from pybrain.datasets import ClassificationDataSet
 from pybrain.utilities import percentError
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
-from pybrain.structure.modules import SoftmaxLayer
+from pybrain.structure.modules import SigmoidLayer
 from pybrain.structure.modules import TanhLayer
 
 from pylab import ion, ioff, figure, draw, contourf, clf, show, hold, plot
@@ -42,10 +42,10 @@ print "Input and output dimensions: ", amtrack_data.indim, amtrack_data.outdim
 print "First sample (input, target, class): "
 print amtrack_data['input'][0], amtrack_data['target'][0], amtrack_data['class'][0]
 
-net = buildNetwork( amtrack_data.indim, 786, amtrack_data.outdim, hiddenclass=TanhLayer, outclass=SoftmaxLayer )
+net = buildNetwork( amtrack_data.indim, 786, amtrack_data.outdim, hiddenclass=SigmoidLayer, outclass=SigmoidLayer )
 
 trainer = BackpropTrainer( net, dataset=amtrack_data, momentum=0.1, verbose=True, weightdecay=0.01)
 
-trainer.trainUntilConvergence()
+trainer.trainUntilConvergence( maxEpochs = 50 )
 
 trainer.testOnData( verbose=True )
